@@ -7,14 +7,17 @@ class UsersController < ApplicationController
     only: [:edit, :update]
   before_action :admin_user, 
     only: [:destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_one_month, 
+    only: :show
   
   def index
     @users = User.paginate(page: params[:page])
   end
 
   def show
-    @first_day = Date.current.beginning_of_month
-    @last_day = @first_day.end_of_month
+    # @first_day = Date.current.beginning_of_month
+    # @last_day = @first_day.end_of_month
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
   
   def new
